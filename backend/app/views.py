@@ -1,8 +1,4 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers, generics
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 
 from goals.serializers import GoalSerializer
 from habits.models import Habit, HabitLog
@@ -10,6 +6,12 @@ from habits.serializers import HabitSerializer
 from todos.models import TodoTask
 from goals.models import Goal
 from todos.serializers import TodoTaskSerializer
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.models import User
+from rest_framework import serializers
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -21,6 +23,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -43,3 +46,19 @@ class DashboardView(APIView):
             "todos": TodoTaskSerializer(todos, many=True).data,
             "goals": GoalSerializer(goals, many=True).data,
         })
+
+
+# views.py
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["username", "email", "first_name", "last_name"]
+
+
+class CurrentUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)

@@ -5,9 +5,11 @@ import {Outlet} from 'react-router-dom';
 
 const Layout = () => {
     return (
-        <Box sx={{minHeight: '100vh', backgroundColor: '#1a202c', color: '#f0f0f0'}}>
+        <Box sx={{minHeight: '100vh', backgroundColor: '#f3f4f6', color: '#1a1a1a', overflow: 'hidden'}}>
+
             <Header/>
-            <Container sx={{my: 4}} maxWidth="xl">
+            <Container disableGutters maxWidth="xl">
+
                 <Outlet/>
             </Container>
         </Box>

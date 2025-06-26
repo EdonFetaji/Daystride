@@ -43,7 +43,7 @@ const Login = () => {
                     <PasswordInput
                         label="Password"
                         name="password"
-                        placeholder="Your password"
+                        placeholder="Your password"usu
                         value={credentials.password}
                         onChange={handleChange}
                         required
