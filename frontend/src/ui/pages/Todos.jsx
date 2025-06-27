@@ -18,6 +18,8 @@ import AddTodoDialog from "../../ui/components/todos/AddTodosDialog.jsx";
 import EditTodoDialog from "../../ui/components/todos/EditTodosDialog.jsx";
 import DeleteTodoDialog from "../../ui/components/todos/DeleteTodosDialog.jsx";
 
+import GradientSegmentedControl from "../../ui/components/animations/SegmentedControl";
+
 
 const Todos = () => {
     const [todos, setTodos] = useState([]);
@@ -29,6 +31,9 @@ const Todos = () => {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [selectedTodo, setSelectedTodo] = useState(null);
+
+    const [timeFilter, setTimeFilter] = useState('Upcoming');
+
     const handleAdd = async (data) => {
         try {
             await ToDoRepository.create(data);
@@ -86,8 +91,23 @@ const Todos = () => {
             filtered = filtered.filter((todo) => todo.due_date === today);
         }
 
+        const now = new Date();
+
+        if (timeFilter === "Upcoming") {
+            filtered = filtered.filter(
+                (todo) =>
+                    !todo.due_date || new Date(todo.due_date) >= now
+            );
+        } else if (timeFilter === "Past") {
+            filtered = filtered.filter(
+                (todo) =>
+                    todo.due_date && new Date(todo.due_date) < now
+            );
+        }
+
         setFilteredTodos(filtered);
-    }, [priorityFilter, deadlineFilter, todos]);
+    }, [priorityFilter, deadlineFilter, todos, timeFilter]);
+
 
     return (
         <Container size="lg" className="my-10">
@@ -98,10 +118,16 @@ const Todos = () => {
                 className="border-2 border-amber-500 bg-white"
             >
                 <Stack p="md">
-                    <div className=" flex flex-col gap-6 justify-evenly">
-                        <h1 className="text-amber-700  font-bold text-2xl">
-                            My Todos
-                        </h1>
+                    <div className=" flex flex-col gap-8 justify-evenly">
+                        <div className=" flex items-center">
+                            <h1 className="text-amber-700  font-bold text-2xl">
+                                My Todos
+                            </h1>
+                            <div className="flex-1 flex justify-center items-center">
+
+                                <GradientSegmentedControl value={timeFilter} onChange={setTimeFilter} />
+                            </div>
+                        </div>
                         <div className=" flex justify-evenly  ">
                             <Select
                                 placeholder="Filter by priority"

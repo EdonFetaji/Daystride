@@ -17,17 +17,6 @@ const HabitInfoCard = ({habit, onToggleCompleted}) => {
                     <Text size="sm" color="dimmed">
                         {habit.description || "No description provided."}
                     </Text>
-                    {habit.created_at && (
-                        <Group spacing="xs" mt="xs">
-                            <Badge
-                                color="green"
-                                variant="outline"
-                                leftSection={<IconCalendarStats size={14}/>}
-                            >
-                                Created: {new Date(habit.created_at).toLocaleDateString()}
-                            </Badge>
-                        </Group>
-                    )}
                 </div>
 
                 <Tooltip label={habit.completed ? "Completed" : "Not completed"} withArrow>

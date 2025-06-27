@@ -4,9 +4,7 @@ from .views import HabitViewSet, HabitLogViewSet
 
 router = DefaultRouter()
 
-router.register('', HabitViewSet, basename='habit')
 router.register('logs', HabitLogViewSet, basename='habit-log')
+router.register('', HabitViewSet, basename='habit')
 
 urlpatterns = router.urls
-
-

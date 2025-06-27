@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Habit, HabitLog
 
+
 class HabitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Habit
@@ -9,6 +10,8 @@ class HabitSerializer(serializers.ModelSerializer):
 
 
 class HabitLogSerializer(serializers.ModelSerializer):
+    habit = HabitSerializer(read_only=True)
+
     class Meta:
         model = HabitLog
         fields = '__all__'
