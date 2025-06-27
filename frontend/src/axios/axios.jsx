@@ -1,3 +1,5 @@
+// src/axios/axios.js
+
 import axios from "axios";
 
 const axiosInstance = axios.create({
@@ -26,14 +28,35 @@ axiosInstance.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// Global response error handler
+// Global response error handler with refresh
 axiosInstance.interceptors.response.use(
     (response) => response,
-    (error) => {
-        const status = error.response?.status;
-        if (status === 401 || status === 403) {
-            localStorage.removeItem("tokens");
-            window.location.href = "/login";
+    async (error) => {
+        const originalRequest = error.config;
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            try {
+                const stored = localStorage.getItem("tokens");
+                if (stored) {
+                    const {refresh} = JSON.parse(stored);
+                    if (refresh) {
+                        const res = await axios.post(
+                            `${import.meta.env.VITE_API_BASE || "http://localhost:8000/api/"}token/refresh/`,
+                            {refresh}
+                        );
+                        const newTokens = res.data;
+                        localStorage.setItem("tokens", JSON.stringify(newTokens));
+                        axiosInstance.defaults.headers.Authorization = `Bearer ${newTokens.access}`;
+                        originalRequest.headers.Authorization = `Bearer ${newTokens.access}`;
+                        return axiosInstance(originalRequest);
+                    }
+                }
+            } catch (refreshError) {
+                console.error("Token refresh failed:", refreshError);
+                localStorage.removeItem("tokens");
+                window.location.href = "/login";
+                return Promise.reject(refreshError);
+            }
         }
         return Promise.reject(error);
     }

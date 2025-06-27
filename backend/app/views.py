@@ -1,3 +1,5 @@
+from datetime import date
+
 from rest_framework import serializers, generics
 
 from goals.serializers import GoalSerializer
@@ -35,10 +37,12 @@ class DashboardView(APIView):
 
     def get(self, request):
         user = request.user
+        today = date.today()
+
         habits = Habit.objects.filter(user=user)
-        todos = TodoTask.objects.filter(user=user)
-        goals = list(Goal.objects.filter(owner=user))
-        goals += [x.goal for x in UserGoal.objects.filter(user=user)]
+        todos = TodoTask.objects.filter(user=user, due_date__gte=today)
+        goals = list(Goal.objects.filter(owner=user, end_date__gte=today))
+        goals += [x.goal for x in UserGoal.objects.filter(user=user) if x.goal.end_date >= today]
 
         return Response({
             "username": user.username,
@@ -47,7 +51,6 @@ class DashboardView(APIView):
             "todos": TodoTaskSerializer(todos, many=True).data,
             "goals": GoalSerializer(goals, many=True).data,
         })
-
 
 # views.py
 

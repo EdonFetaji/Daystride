@@ -6,6 +6,7 @@ import HabitInfoCard from "../components/habits/HabitInfoCard";
 import GoalInfoCard from "../components/goals/GoalInfoCard";
 import ToDoRepository from "../../repository/ToDoRepository";
 import HabitRepository from "../../repository/HabitRepository";
+import {Link} from "react-router-dom";
 
 const Dashboard = () => {
     const [dashboardData, setDashboardData] = useState(null);
@@ -58,6 +59,7 @@ const Dashboard = () => {
     return (
         <div className="min-h-screen bg-gray-100 text-gray-900 p-6">
             <div className="max-w-5xl mx-auto">
+                <h1 className=" text-3xl text-left mb-6 ">Hello <span className="font-bold text-amber-500">{dashboardData.username} !</span></h1>
 
                 {/* Blue banner with date, todos, habits, goals */}
                 <div className="bg-gradient-to-br from-blue-400 to-blue-500 rounded-2xl shadow-lg flex overflow-hidden max-w-5xl w-full py-6 pr-6 pl-4">
@@ -76,10 +78,12 @@ const Dashboard = () => {
                             <div className="p-4 bg-white rounded-lg shadow border-l-4 border-amber-500">
                                 <div className="flex justify-between items-center mb-2">
                                     <h2 className="text-lg font-semibold text-amber-600">To-Do Tasks</h2>
-                                    <button
+                                    <Link
+                                        key="View Tasks"
+                                        to="/todos"
                                         className="bg-amber-100 text-amber-700 hover:bg-amber-200 px-3 py-1 rounded text-sm font-medium">
-                                        Add Task
-                                    </button>
+                                        View Tasks
+                                    </Link>
                                 </div>
                                 <ul className="space-y-2">
                                     {dashboardData.todos.map((todo) => (
@@ -93,10 +97,11 @@ const Dashboard = () => {
                             <div className="p-4 bg-white rounded-lg shadow border-l-4 border-green-500">
                                 <div className="flex justify-between items-center mb-2">
                                     <h2 className="text-lg font-semibold text-green-600">Habits</h2>
-                                    <button
+                                    <Link
+                                        to="/habits"
                                         className="bg-green-100 text-green-700 hover:bg-green-200 px-3 py-1 rounded text-sm font-medium">
                                         Manage
-                                    </button>
+                                    </Link>
                                 </div>
                                 <ul className="space-y-2">
                                     {dashboardData.habits.map((habit) => (
@@ -111,10 +116,11 @@ const Dashboard = () => {
                         <div className="p-4 bg-white rounded-lg shadow border-l-4 border-indigo-600">
                             <div className="flex justify-between items-center mb-2">
                                 <h2 className="text-lg font-semibold text-blue-600">Goals</h2>
-                                <button
+                                <Link
+                                    to="/goals"
                                     className="bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1 rounded text-sm font-medium">
                                     Create Goal
-                                </button>
+                                </Link>
                             </div>
                             <ul className="space-y-2">
                                 {dashboardData.goals.map((goal) => (
