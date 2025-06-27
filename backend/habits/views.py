@@ -15,6 +15,9 @@ class HabitViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    def update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        return super().update(request, *args, **kwargs)
 
 class HabitLogViewSet(viewsets.ModelViewSet):
     serializer_class = HabitLogSerializer

@@ -4,8 +4,10 @@ import Header from '../Header/Header.jsx';
 import {Outlet} from 'react-router-dom';
 
 const Layout = () => {
+    //  backgroundColor: '#f3f4f6',
     return (
-        <Box sx={{minHeight: '100vh', backgroundColor: '#f3f4f6', color: '#1a1a1a', overflow: 'hidden'}}>
+        <Box sx={{minHeight: '100vh', color: '#1a1a1a', overflow: 'hidden'}}
+             className="bg-gray-200">
 
             <Header/>
             <Container disableGutters maxWidth="xl">

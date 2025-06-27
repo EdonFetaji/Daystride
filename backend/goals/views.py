@@ -8,13 +8,15 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Goal
 from .serializers import GoalSerializer
 
+
 class GoalViewSet(viewsets.ModelViewSet):
     serializer_class = GoalSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # Default: show only public goals for the hub
-        return Goal.objects.filter(is_public=True)
+        if self.action == 'list':
+            return Goal.objects.filter(is_public=True)
+        return Goal.objects.filter(owner=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

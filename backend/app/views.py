@@ -4,7 +4,7 @@ from goals.serializers import GoalSerializer
 from habits.models import Habit, HabitLog
 from habits.serializers import HabitSerializer
 from todos.models import TodoTask
-from goals.models import Goal
+from goals.models import Goal, UserGoal
 from todos.serializers import TodoTaskSerializer
 
 from rest_framework.views import APIView
@@ -37,7 +37,8 @@ class DashboardView(APIView):
         user = request.user
         habits = Habit.objects.filter(user=user)
         todos = TodoTask.objects.filter(user=user)
-        goals = Goal.objects.filter(owner=user)
+        goals = list(Goal.objects.filter(owner=user))
+        goals += [x.goal for x in UserGoal.objects.filter(user=user)]
 
         return Response({
             "username": user.username,

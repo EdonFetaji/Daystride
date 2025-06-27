@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import api from '../../axios/axios';
+import logoIcon from "../../assests/logo.svg";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -23,13 +24,17 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-700 text-gray-100">
-            <div className="bg-gray-800 p-6 rounded-md w-full max-w-md shadow-md">
-                <h2 className="text-2xl font-bold mb-4 text-yellow-400">Register</h2>
-                {error && <p className="text-red-400 text-sm mb-2">{error}</p>}
+        <div className="min-h-screen flex items-center justify-center bg-amber-50 px-4">
+            <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
+                <div className="flex items-center justify-center gap-2 mb-6">
+                    <img src={logoIcon} alt="Logo" width={40} height={40}/>
+                    <span className="text-2xl font-bold text-black leading-none">DayStride</span>
+                </div>
+                <h2 className="text-3xl font-bold text-amber-700 mb-6 text-center">Create Account</h2>
+                {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <input
-                        className="w-full p-2 rounded bg-gray-900 text-gray-100 border border-gray-600"
+                        className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         type="text"
                         placeholder="Username"
                         value={form.username}
@@ -37,7 +42,7 @@ const Register = () => {
                         required
                     />
                     <input
-                        className="w-full p-2 rounded bg-gray-900 text-gray-100 border border-gray-600"
+                        className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         type="email"
                         placeholder="Email"
                         value={form.email}
@@ -45,7 +50,7 @@ const Register = () => {
                         required
                     />
                     <input
-                        className="w-full p-2 rounded bg-gray-900 text-gray-100 border border-gray-600"
+                        className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         type="password"
                         placeholder="Password"
                         value={form.password}
@@ -54,7 +59,7 @@ const Register = () => {
                     />
                     <button
                         type="submit"
-                        className="w-full bg-yellow-300 text-black py-2 rounded font-semibold hover:bg-yellow-400 transition"
+                        className="w-full bg-amber-700 text-white py-2.5 rounded font-semibold hover:bg-amber-800 transition"
                     >
                         Register
                     </button>
