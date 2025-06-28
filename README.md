@@ -47,7 +47,7 @@ Daystride is a personal productivity and well-being platform for tracking **habi
 
 ## Local Development
 
-### 1️⃣ Clone the Repository
+### Clone the Repository
 
 ```bash
 git clone https://github.com/yourusername/daystride.git
