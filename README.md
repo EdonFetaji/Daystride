@@ -25,7 +25,7 @@ Daystride is a personal productivity and well-being platform for tracking **habi
 | Auth         | SimpleJWT                                      |
 | Frontend     | React, Vite, Mantine, Tailwind CSS            |
 | State        | React Context, hooks, repository pattern      |
-| Database     | SQLite (dev), PostgreSQL (prod recommended)   |
+| Database     | SQLite (dev), MYSQL    |
 
 ---
 
